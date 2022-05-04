@@ -27,11 +27,27 @@ async function run() {
         });
 
         // load single item using _id
-        app.get('/items/:_id', async (req, res) => {
-            const id = req.params._id;
+        app.get('/items/:id', async (req, res) => {
+            const id = req.params.id;
             const query = { _id: ObjectId(id) };
             const singleItem = await inventoryCollection.findOne(query);
             res.send(singleItem);
+        })
+
+        // update quantity when delivered button is clicked
+        app.put('/items/:id', async (req, res) => {
+            const id = req.params.id;
+            const updatedQuantity = req.body;
+            // console.log(updatedQuantity);
+            const filter = { _id: ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    quantity: updatedQuantity.quantity
+                },
+            };
+            const result = await inventoryCollection.updateOne(filter, updateDoc, options);
+            res.send(result);
         })
 
     }
