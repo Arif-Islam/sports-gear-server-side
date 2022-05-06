@@ -66,6 +66,16 @@ async function run() {
             res.send(result);
         })
 
+        // load items by user email
+        app.get('/myitems', async (req, res) => {
+            const email = req.query.email;
+            const query = { email: email };
+            const cursor = inventoryCollection.find(query);
+            const inventoryItems = await cursor.toArray();
+            res.send(inventoryItems);
+        })
+
+
     }
     finally {
         console.log('dont know what to do in here.');
