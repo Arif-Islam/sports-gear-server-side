@@ -109,7 +109,9 @@ async function run() {
 }
 run().catch(console.dir);
 
-
+app.get('/app', (req, res) => {
+    res.send("app is running");
+})
 
 
 app.get('/', (req, res) => {
