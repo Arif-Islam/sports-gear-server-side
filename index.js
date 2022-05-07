@@ -70,11 +70,22 @@ async function run() {
         app.get('/myitems', async (req, res) => {
             const email = req.query.email;
             const query = { email: email };
+            // console.log('query get func', query);
             const cursor = inventoryCollection.find(query);
             const inventoryItems = await cursor.toArray();
             res.send(inventoryItems);
         })
 
+        // delete my item by user email
+        app.delete('/myitems', async (req, res) => {
+            // console.log('delete');
+            const email = req.query.email;
+            // console.log('email', email);
+            const query = { email: email };
+            console.log('query', query);
+            const result = await inventoryCollection.deleteOne(query);
+            res.send(result);
+        })
 
     }
     finally {
